@@ -5,6 +5,7 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['mongodb'],
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
@@ -24,6 +25,10 @@ const nextConfig = {
     maxInactiveAge: 10000,
     pagesBufferLength: 2,
   },
+  // Add React strict mode to help catch hydration issues
+  reactStrictMode: true,
+  // Improve performance and reduce hydration issues
+  swcMinify: true,
   async headers() {
     return [
       {

@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 export default function Header() {
   const router = useRouter()
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -40,7 +40,41 @@ export default function Header() {
     setIsMenuOpen(false)
   }
 
-  if (!mounted) return null
+  // Show a skeleton while mounting to prevent layout shift
+  if (!mounted) {
+    return (
+      <header className="fixed top-0 w-full bg-background/95 backdrop-blur-md border-b border-border z-50">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-gradient-to-r from-primary to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg relative overflow-hidden">
+                <img 
+                  src="/images/icon.png" 
+                  alt="Icon" 
+                  className="w-8 h-8 opacity-20"
+                />
+                <span className="font-mono absolute z-10">{'<A/>'}</span>
+              </div>
+              <div className="flex flex-col">
+                <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent flex items-center">
+                  <span className="font-mono">&lt;</span>
+                  <span>Amez</span>
+                  <span className="font-mono">/&gt;</span>
+                </div>
+                <div className="text-xs text-muted-foreground font-mono opacity-60">
+                  developer.build()
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-muted rounded-md"></div>
+              <div className="w-8 h-8 bg-muted rounded-md"></div>
+            </div>
+          </div>
+        </div>
+      </header>
+    )
+  }
 
   return (
     <motion.header 
@@ -64,10 +98,13 @@ export default function Header() {
                 whileHover={{ rotate: 5 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Code brackets background pattern */}
+                {/* Custom icon background */}
                 <div className="absolute inset-0 opacity-20">
-                  <Brackets className="w-6 h-6 absolute top-1 left-1" />
-                  <Terminal className="w-4 h-4 absolute bottom-1 right-1" />
+                  <img 
+                    src="/images/icon.png" 
+                    alt="Icon" 
+                    className="w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  />
                 </div>
                 {/* Main logo letter with code styling */}
                 <span className="relative z-10 font-mono">{'<A/>'}</span>
@@ -106,15 +143,15 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
                 className="ml-2"
               >
                 <motion.div
                   initial={{ rotate: 0 }}
-                  animate={{ rotate: theme === 'dark' ? 180 : 0 }}
+                  animate={{ rotate: resolvedTheme === 'dark' ? 180 : 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  {resolvedTheme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </motion.div>
               </Button>
             </motion.div>
@@ -126,14 +163,14 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
               >
                 <motion.div
                   initial={{ rotate: 0 }}
-                  animate={{ rotate: theme === 'dark' ? 180 : 0 }}
+                  animate={{ rotate: resolvedTheme === 'dark' ? 180 : 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  {resolvedTheme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </motion.div>
               </Button>
             </motion.div>

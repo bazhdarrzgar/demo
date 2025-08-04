@@ -18,12 +18,25 @@ import {
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import ClientWrapper from '@/components/ClientWrapper'
 import jsPDF from 'jspdf'
 
 export default function HomePage() {
   const router = useRouter()
   const [typingText, setTypingText] = useState('')
   const fullText = "Full Stack Software Engineer"
+  
+  // Auto refresh functionality
+  useEffect(() => {
+    const hasRefreshed = localStorage.getItem('hasRefreshed')
+    
+    if (!hasRefreshed) {
+      localStorage.setItem('hasRefreshed', 'true')
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000) // Wait 1 second before refreshing
+    }
+  }, [])
   
   useEffect(() => {
     let i = 0
@@ -198,10 +211,12 @@ export default function HomePage() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-lg md:text-2xl lg:text-3xl text-muted-foreground mb-6 h-8 md:h-12"
           >
-            {typingText}<motion.span 
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            >|</motion.span>
+            <ClientWrapper fallback={<span>Full Stack Software Engineer</span>}>
+              {typingText}<motion.span 
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              >|</motion.span>
+            </ClientWrapper>
           </motion.div>
           
           <motion.p
@@ -228,15 +243,17 @@ export default function HomePage() {
               <Briefcase className="w-4 h-4" />
               <span>View My Work</span>
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              onClick={handleDownloadCV} 
-              className="flex items-center justify-center space-x-2 hover:scale-105 transition-all duration-300"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download CV</span>
-            </Button>
+            <ClientWrapper>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                onClick={handleDownloadCV} 
+                className="flex items-center justify-center space-x-2 hover:scale-105 transition-all duration-300"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download CV</span>
+              </Button>
+            </ClientWrapper>
           </motion.div>
           
           <motion.div
