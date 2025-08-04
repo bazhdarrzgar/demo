@@ -13,29 +13,18 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack(config, { dev, isServer }) {
-    // Performance optimizations
-    config.optimization = {
-      ...config.optimization,
-      splitChunks: {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            priority: 10,
-            chunks: 'all',
-          },
-        },
-      },
-    };
-
     if (dev && !isServer) {
       // Reduce CPU/memory from file watching in development
       config.watchOptions = {
-        poll: 1000, // check every 1 second (reduced from 2 seconds)
-        aggregateTimeout: 200, // wait before rebuilding (reduced from 300ms)
-        ignored: ['**/node_modules', '**/.git', '**/build', '**/dist'],
+        poll: 1000, // check every 1 second
+        aggregateTimeout: 200, // wait before rebuilding
+        ignored: ['**/node_modules', '**/.git'],
       };
+    }
+
+    // Safe performance optimization
+    if (!dev && !isServer) {
+      config.optimization.splitChunks.chunks = 'async';
     }
 
     return config;
