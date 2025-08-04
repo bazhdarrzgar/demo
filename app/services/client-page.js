@@ -268,7 +268,7 @@ export default function ClientServicesPage() {
                 className="text-center"
               >
                 <div className="relative mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-primary to-blue-600 rounded-full flex items-center justify-center mx-auto text-white font-bold text-xl">
+                  <div className="w-16 h-16 bg-white text-gray-800 rounded-full flex items-center justify-center mx-auto border-4 border-primary shadow-lg font-bold text-xl">
                     {step.step}
                   </div>
                   {index < processSteps.length - 1 && (

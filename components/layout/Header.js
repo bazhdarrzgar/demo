@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { 
   User, Code, Target, Briefcase, Github, FileText, Award, BookOpen, Quote, MessageSquare,
-  Sun, Moon, Menu, X
+  Sun, Moon, Menu, X, Terminal, Brackets, Code2
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -51,23 +51,36 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Developer-Focused Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => handleNavigation('/')}
             className="cursor-pointer"
           >
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <motion.div 
-                className="w-10 h-10 bg-gradient-to-r from-primary to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg"
+                className="relative w-12 h-12 bg-gradient-to-r from-primary to-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg overflow-hidden"
                 whileHover={{ rotate: 5 }}
                 transition={{ duration: 0.3 }}
               >
-                A
+                {/* Code brackets background pattern */}
+                <div className="absolute inset-0 opacity-20">
+                  <Brackets className="w-6 h-6 absolute top-1 left-1" />
+                  <Terminal className="w-4 h-4 absolute bottom-1 right-1" />
+                </div>
+                {/* Main logo letter with code styling */}
+                <span className="relative z-10 font-mono">{'<A/>'}</span>
               </motion.div>
-              <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-                Amez
+              <div className="flex flex-col">
+                <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent flex items-center">
+                  <span className="font-mono">&lt;</span>
+                  <span>Amez</span>
+                  <span className="font-mono">/&gt;</span>
+                </div>
+                <div className="text-xs text-muted-foreground font-mono opacity-60">
+                  developer.build()
+                </div>
               </div>
             </div>
           </motion.div>
