@@ -56,7 +56,7 @@ export default function ClientAboutPage() {
             >
               <div className="relative">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=face&auto=format"
+                  src="/images/profile.jpg"
                   alt="Amez - Full Stack Software Engineer"
                   className="w-full rounded-2xl shadow-2xl object-cover aspect-square"
                 />
